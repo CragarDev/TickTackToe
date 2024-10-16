@@ -3,7 +3,7 @@ from tkinter import messagebox
 import customtkinter as ctk
 
 
-class GameBoard(ctk.CTkFrame):
+class GameBoardHvH(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
         self.master = master
@@ -88,3 +88,4 @@ class GameBoard(ctk.CTkFrame):
     def disable_board(self):
         for button in self.game_board_buttons:
             button.configure(state="disabled")
+        print("Gameboard is disabled")

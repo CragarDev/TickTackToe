@@ -3,7 +3,7 @@ from tkinter import messagebox
 import customtkinter as ctk
 
 
-class GameBoard(ctk.CTkFrame):
+class GameBoardCvC(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
         self.master = master
