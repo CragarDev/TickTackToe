@@ -20,6 +20,7 @@ class MenuFrame(ctk.CTkFrame):
         self.players_turn = tk.StringVar()
         self.click_counter = 0
         self.players_tied_count = tk.IntVar(value=0)
+        self.game_over = False
 
         self.game_matrix_dict = {
             "sq1": [(0, 0), False, ""],  # [position, is_clicked, player]
@@ -135,7 +136,7 @@ class MenuFrame(ctk.CTkFrame):
         # Games Played Label
         self.games_played_label = ctk.CTkLabel(
             self.games_played_frame,
-            text="Games Played",
+            text="Games Played:",
             font=("Helvetica", 20, "bold"),
         )
         self.games_played_label.grid(row=0, column=0, sticky="e", padx=20, pady=5)
@@ -143,7 +144,7 @@ class MenuFrame(ctk.CTkFrame):
         # Games Played Entry
         self.games_played_count = ctk.CTkLabel(
             self.games_played_frame,
-            font=("Helvetica", 20, "bold"),
+            font=("Helvetica", 32, "bold"),
             textvariable=self.games_played,
         )
         self.games_played_count.grid(row=0, column=1, sticky="w", padx=20, pady=5)
@@ -328,11 +329,11 @@ class MenuFrame(ctk.CTkFrame):
                 )
                 print()
                 self.winner(self.players_turn.get())
-                return
+
             elif self.click_counter == 9:
                 print("Yes, The Players have Tied!")
                 self.players_tie()
-                return
+
             else:
                 print(
                     f"Player {self.players_turn.get()} is not the winner and now it's O's turn"
@@ -349,17 +350,20 @@ class MenuFrame(ctk.CTkFrame):
                 )
                 print()
                 self.winner(self.players_turn.get())
-                return
+
             elif self.click_counter == 9:
                 print("Yes, The Players have Tied!")
                 self.players_tie()
-                return
+
             else:
                 print(
                     f"Player {self.players_turn.get()} is not the winner and now it's X's turn"
                 )
                 self.players_turn_label.configure(text_color="red")
                 self.players_turn.set("X")
+
+        if self.game_over:
+            return
         self.players_turn_label.configure(
             text=f"Player {self.players_turn.get()}'s Turn"
         )
@@ -498,14 +502,14 @@ class MenuFrame(ctk.CTkFrame):
         self.master.game_board.disable_board()
 
         if player == "X":
-            x_win_count = int(self.player_x_win_count.get()) + 1
-            print(f"Player X Win Count: {x_win_count}")
-            self.player_x_win_counter.configure(text=str(x_win_count))
+            self.player_x_win_count.set(self.player_x_win_count.get() + 1)
+            print(f"Player X Win Count: {self.player_x_win_count.get()}")
+            self.player_x_win_counter.configure(text=str(self.player_x_win_count.get()))
 
         else:
-            o_win_count = self.player_o_win_count.get() + 1
-            print(f"Player O Win Count: {o_win_count}")
-            self.player_o_win_counter.configure(text=str(o_win_count))
+            self.player_o_win_count.set(self.player_o_win_count.get() + 1)
+            print(f"Player O Win Count: {self.player_o_win_count.get()}")
+            self.player_o_win_counter.configure(text=str(self.player_o_win_count.get()))
 
         self.players_turn_label.configure(text=f"Player {player} Wins")
         print("_" * 50)
@@ -513,6 +517,14 @@ class MenuFrame(ctk.CTkFrame):
         print("_" * 50)
         print()
         self.click_counter = 0
+        self.game_over = True
+        # Force the GUI to update
+        self.master.update_idletasks()
+
+        messagebox.showinfo(
+            "Game Won",
+            f"Congratulations!!! \nPlayer {player} Has Won The Game!, \nPlease start a new game!",
+        )
 
     def players_tie(self):
         self.players_tied_count.set(self.players_tied_count.get() + 1)

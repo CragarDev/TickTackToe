@@ -51,7 +51,8 @@ class GameBoard(ctk.CTkFrame):
 
         print()
         button = self.game_board_buttons[i * 3 + j]
-        if self.players_turn == "X":
+        print(self.players_turn.get())
+        if self.players_turn.get() == "X":
             button.configure(text="X", state="disabled", fg_color="darkred")
             # run a button click event in the menu frame from the app.py
             self.master.menu_frame.on_button_click(i, j, self.players_turn.get())
@@ -61,9 +62,9 @@ class GameBoard(ctk.CTkFrame):
             # run a button click event in the menu frame from the app.py
             self.master.menu_frame.on_button_click(i, j, self.players_turn.get())
             self.players_turn.set(value="X")
-        print(
-            f"Gameboard is waiting for Player {self.players_turn.get()} to click a button"
-        )
+        # print(
+        #     f"Gameboard is waiting for Player {self.players_turn.get()} to click a button"
+        # )
         # Force the GUI to update
         self.master.update_idletasks()
 
