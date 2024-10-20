@@ -88,3 +88,31 @@ class GameBoardHvC(ctk.CTkFrame):
     def disable_board(self):
         for button in self.game_board_buttons:
             button.configure(state="disabled")
+
+    def get_empty_squares(self):
+        empty_squares = []
+        for i, button in enumerate(self.game_board_buttons):
+            if button["text"] == " ":
+                empty_squares.append(i)
+        return empty_squares
+
+    # def computer_select_square(self, game_board):
+    #     self.choice = self.make_selection_decision(game_board)
+    #     return self.choice
+
+    # def on_computer_move(self):
+    #     pass
+
+    # def update_gameboard_with_computer_move(self, i, j):
+    #     button = self.game_board_buttons[i * 3 + j]
+    #     button.configure(text="O", state="disabled", fg_color="darkgreen")
+    #     self.players_turn.set(value="X")
+    #     # Force the GUI to update
+    #     self.master.update_idletasks()
+
+    # def switch_player(self):
+    #     if self.current_player == "human":
+    #         self.current_player = "computer"
+    #         self.make_computer_move()
+    #     else:
+    #         self.current_player = "human"
